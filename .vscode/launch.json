@@ -19,6 +19,15 @@
             ],
             "stopAtEntry": false,
             "console": "integratedTerminal"
-        }
+        },
+        {
+            "name": "gen.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/gen.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
     ]
 }
