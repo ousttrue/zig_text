@@ -1,0 +1,3 @@
+[submodule "pkgs/libuv/deps/libuv"]
+	path = pkgs/libuv/deps/libuv
+	url = https://github.com/libuv/libuv.git
