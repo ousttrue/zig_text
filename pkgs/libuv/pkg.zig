@@ -23,5 +23,7 @@ pub fn addTo(exe: *LibExeObjStep, comptime path: anytype) Pkg
 
     exe.addIncludeDir(&concat(path, "deps/libuv/include"));
     exe.addCSourceFiles(&.{&concat(path, "src/wrap.cpp")}, &.{});
+    exe.addLibPath(&concat(path, "deps/libuv/build/Debug"));
+    exe.linkSystemLibrary("uv");
     return pkg;
 }

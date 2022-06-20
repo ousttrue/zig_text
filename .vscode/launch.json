@@ -10,9 +10,14 @@
             "request": "launch",
             "program": "${workspaceFolder}/zig-out/bin/zig_text.exe",
             "args": [],
-            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "${workspaceFolder}\\pkgs\\libuv\\deps\\libuv\\build\\Debug;${env:PATH}"
+                }
+            ],
+            "stopAtEntry": false,
             "console": "integratedTerminal"
         }
     ]
