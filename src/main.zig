@@ -1,21 +1,25 @@
 const std = @import("std");
-const libuv = @import("libuv");
+const c = @import("./c.zig");
+const libuv = c.libuv;
+
+var counter: i64 = 0;
+
+fn wait_for_a_while(handle: [*c]libuv.uv_idle_t) callconv(.C) void {
+    counter += 1;
+
+    if (counter >= 10e6) {
+        _ = libuv.uv_idle_stop(handle);
+    }
+}
 
 pub fn main() anyerror!void {
+    var idler: libuv.uv_idle_t = undefined;
 
-    const allocator= std.testing.allocator;
+    _ = libuv.uv_idle_init(libuv.uv_default_loop(), &idler);
+    _ = libuv.uv_idle_start(&idler, wait_for_a_while);
 
-    const size = libuv.getSizeOfUvLoopT();
-    std.debug.print("size of uv_loop_t = {}\n", .{size});
+    std.debug.print("Idling...\n", .{});
+    _ = libuv.uv_run(libuv.uv_default_loop(), libuv.UV_RUN_DEFAULT);
 
-    const p = try allocator.alloc(u8, size);
-    defer allocator.free(p);
-
-    const loop = @ptrCast(*anyopaque, p);
-
-    _ = libuv.uv_loop_init(loop);
-    defer _ = libuv.uv_loop_close(loop);
-
-    std.debug.print("Now quitting.\n", .{});
-    _ = libuv.uv_run(loop, .UV_RUN_DEFAULT);
+    _ = libuv.uv_loop_close(libuv.uv_default_loop());
 }

@@ -1,5 +1,5 @@
 const std = @import("std");
-const libuv = @import("./pkgs/libuv/pkg.zig");
+// const libuv = @import("./pkgs/libuv/pkg.zig");
 
 pub fn build(b: *std.build.Builder) void {
     // Standard target options allows the person running `zig build` to choose
@@ -15,7 +15,12 @@ pub fn build(b: *std.build.Builder) void {
     const exe = b.addExecutable("zig_text", "src/main.zig");
     exe.setTarget(target);
     exe.setBuildMode(mode);
-    _ = libuv.addTo(exe, "pkgs/libuv/");    
+
+    // _ = libuv.addTo(exe, "pkgs/libuv/");
+    exe.addIncludeDir("pkgs/libuv/deps/libuv/include");
+    exe.addLibPath("pkgs/libuv/deps/libuv/build/Debug");
+    exe.linkSystemLibrary("uv");
+
     exe.linkLibC();
     exe.install();
 
