@@ -17,13 +17,16 @@ def generate_libuv():
     HEADER = WORKSPACE / 'pkgs/libuv/deps/libuv/include/uv.h'
     ZIG = WORKSPACE / 'pkgs/libuv/src/main.zig'
     LOGGER.debug(f'{HEADER.name} => {ZIG}')
-    generator = ZigGenerator(Header(HEADER, definitions=[
-        '_WIN32=1',
-        'WIN32_LEAN_AND_MEAN=1',
-        '_WIN32_WINNT=0x0602',
-        # 'WIN32', '_WINDOWS',
-        'USING_UV_SHARED=1',
-    ]))
+    generator = ZigGenerator(
+        Header(HEADER, definitions=[
+            '_WIN32=1',
+            'WIN32_LEAN_AND_MEAN=1',
+            '_WIN32_WINNT=0x0602',
+            # 'WIN32', '_WINDOWS',
+            'USING_UV_SHARED=1',
+        ]),
+        # Header(HEADER.parent / 'uv/win.h'),
+    )
     generator.generate(ZIG)
 
 
